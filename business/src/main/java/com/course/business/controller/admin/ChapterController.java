@@ -2,7 +2,9 @@ package com.course.business.controller.admin;
 
 import com.course.server.domain.Chapter;
 import com.course.server.dto.ChapterDto;
+import com.course.server.dto.PageDto;
 import com.course.server.service.ChapterService;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +24,10 @@ public class ChapterController {
     private ChapterService chapterService;
 
     @RequestMapping(value="/list",produces = "application/json;charset=UTF-8")
-    public List<ChapterDto> list(){
+    public PageDto list(@RequestBody PageDto pageDto){
 
-        return chapterService.list();
+        chapterService.list(pageDto);
+        return pageDto;
 
     }
 }

@@ -59,7 +59,12 @@ public class ChapterService {
         chapter.setId(UuidUtil.getShortUuid());
         chapterMapper.insert(chapter);
     }
+
     private void update(Chapter chapter){
         chapterMapper.updateByPrimaryKey(chapter);
+    }
+
+    public void delete(String id){
+        chapterMapper.deleteByPrimaryKey(id);
     }
 }

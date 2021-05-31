@@ -440,7 +440,7 @@
         <div class="footer-inner">
           <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">于小平</span>
+							<span class="blue bolder">老丁丁</span>
 							在线视频课程 &copy; 2021-2099
 						</span>
 

@@ -29,3 +29,24 @@ insert into chapter values ('00017','00000','测试大章17');
 insert into chapter values ('00018','00000','测试大章18');
 
 
+
+Drop table if exists section;
+create table section
+(
+    id         char(8)    not null default '' comment 'ID',
+    title      varchar(9) not null comment '标题',
+    course_id  char(8) comment '课程|course.id',
+    chapter_id char(8) comment '大章|chapter.id',
+    video      varchar(200) comment '视频',
+    time       int comment '时长|单位秒',
+    charge     char(1) comment '收费|C 收费; F 免费',
+    sort       int comment '顺序',
+    created_at datetime(3) comment '创建时间',
+    updated_at datetime(3) comment '修改时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB default charset=utf8mb4 comment = '小节';
+
+
+insert into section values ('000001','测试小节1','00000001','00000000','',500,'F',1,now(),now());
+
+

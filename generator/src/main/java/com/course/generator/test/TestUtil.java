@@ -16,8 +16,8 @@ import java.io.IOException;
 
 public class TestUtil {
 
-    static String ftlPath = "A:\\IntelliJIDEA2020.3.3\\workspace1.0\\course\\generator\\src\\main\\java\\com\\course\\generator\\test\\";
-    static String toPath = "A:\\IntelliJIDEA2020.3.3\\workspace1.0\\course\\generator\\src\\main\\java\\com\\course\\generator\\test\\";
+    static String ftlPath = "generator\\src\\main\\java\\com\\course\\generator\\test\\";
+    static String toPath = "generator\\src\\main\\java\\com\\course\\generator\\test\\";
 
     public static void main(String[] args) throws IOException, TemplateException {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_29);

@@ -26,7 +26,7 @@ public class ChapterService {
 
     @Resource
     private ChapterMapper chapterMapper;
-
+//列表查询
     public void list(PageDto pageDto){
         /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/
         //当传入的分页参数不合法时，比如0,0时，程序不会报错，而是查全部记录，分页不生效。
@@ -44,7 +44,7 @@ public class ChapterService {
         }
         pageDto.setList(chapterList);
     }
-
+//保存操作，id有值的时候更新，无值的时候新增。
     public void save(ChapterDto chapterDto){
         Chapter chapter = CopyUtil.copy(chapterDto,Chapter.class);
         if (StringUtils.isEmpty(chapterDto.getId())){

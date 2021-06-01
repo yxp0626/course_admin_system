@@ -28,7 +28,7 @@ public class ChapterController {
     @Resource
     private ChapterService chapterService;
 
-
+//列表查询
     @PostMapping(value="/list",produces = "application/json;charset=UTF-8")
     public ResponseDto list(@RequestBody PageDto pageDto){
         ResponseDto responseDto = new ResponseDto();
@@ -37,7 +37,7 @@ public class ChapterController {
         return responseDto;
 
     }
-
+//保存操作，id在数据库中含有时执行更新操作，id在数据库中不//含有时执行新增操作。
     @PostMapping (value = "/save", produces = "application/json;charset=UTF-8")
     public ResponseDto save(@RequestBody ChapterDto chapterDto) {
 
@@ -52,7 +52,7 @@ public class ChapterController {
     }
 
     @DeleteMapping(value = "/delete/{id}", produces = "application/json;charset=UTF-8")
-        public ResponseDto save(@PathVariable String id){
+        public ResponseDto delete(@PathVariable String id){
             ResponseDto responseDto = new ResponseDto();
             chapterService.delete(id);
             return responseDto;

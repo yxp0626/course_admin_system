@@ -110,7 +110,7 @@ export default {
     list(page){
       let _this=this;
       Loading.show();
-      _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/list',{
+      _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/chapter/list',{
         page: page,
         size: _this.$refs.pagination.size,
       }).then((response)=>{
@@ -130,7 +130,7 @@ export default {
         return;
       }
       Loading.show();
-      _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/save',
+      _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/chapter/save',
       _this.chapter).then((response)=>{
         Loading.hide();
         let resp = response.data;
@@ -148,7 +148,7 @@ export default {
       let _this=this;
 
       Confirm.show("删除大章不可恢复，确认删除？",function (){Loading.show();
-        _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/'+id).then((response)=>{
+        _this.$ajax.delete(process.env.VUE_APP_SERVER+'/business/admin/chapter/delete/'+id).then((response)=>{
           Loading.hide();
           console.log("删除大章列表结果:",response);
           let resp = response.data;

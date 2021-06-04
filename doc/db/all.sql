@@ -50,3 +50,4 @@ create table section
 insert into section values ('000001','测试小节1','00000001','00000000','',500,'F',1,now(),now());
 
 SHOW FULL COLUMNS FROM section;
+

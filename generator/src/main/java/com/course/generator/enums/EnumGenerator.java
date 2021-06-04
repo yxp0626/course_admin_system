@@ -5,6 +5,9 @@ package com.course.generator.enums;
  * @date 2021/6/4 - 19:53
  */
 
+import com.course.server.enums.CourseChargeEnum;
+import com.course.server.enums.CourseLevelEnum;
+import com.course.server.enums.CourseStatusEnum;
 import com.course.server.enums.SectionChargeEnum;
 
 import java.io.FileOutputStream;
@@ -21,7 +24,11 @@ public class EnumGenerator {
         StringBuffer bufferArray = new StringBuffer();
         long begin = System.currentTimeMillis();
         try {
+//生成需要的枚举类
             toJson(SectionChargeEnum.class, bufferObject, bufferArray);
+            toJson(CourseLevelEnum.class, bufferObject, bufferArray);
+            toJson(CourseChargeEnum.class, bufferObject, bufferArray);
+            toJson(CourseStatusEnum.class, bufferObject, bufferArray);
             StringBuffer buffer = bufferObject.append("\r\n").append(bufferArray);
             writeJs(buffer);
         } catch (Exception e) {

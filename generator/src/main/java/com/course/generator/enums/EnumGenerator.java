@@ -5,6 +5,7 @@ package com.course.generator.enums;
  * @date 2021/6/4 - 19:53
  */
 
+
 import com.course.server.enums.CourseChargeEnum;
 import com.course.server.enums.CourseLevelEnum;
 import com.course.server.enums.CourseStatusEnum;

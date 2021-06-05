@@ -8,6 +8,10 @@
     </h4>
     <hr>
     <p>
+      <router-link to="/business/chapter" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-arrow-left"></i>
+        返回大章
+      </router-link>
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-edit"></i>
         新增
@@ -132,7 +136,7 @@ export default {
       sections: [],
       SECTION_CHARGE: SECTION_CHARGE,
       course: {},
-      chapter: {}
+      chapter: {},
     }
   },
   mounted: function (){

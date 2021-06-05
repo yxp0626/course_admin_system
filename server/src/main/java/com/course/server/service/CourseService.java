@@ -5,18 +5,21 @@ import com.course.server.domain.CourseExample;
 import com.course.server.dto.CourseDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.CourseMapper;
+import com.course.server.mapper.my.MyCourseMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
 
 /**
  * @author Xiaoping Yu
@@ -25,8 +28,14 @@ import java.util.Date;
 @Service
 public class CourseService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(CourseService.class);
+
     @Resource
     private CourseMapper courseMapper;
+
+    @Resource
+    private MyCourseMapper myCourseMapper;
+
 //列表查询
     public void list(PageDto pageDto){
         /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/
@@ -72,5 +81,11 @@ public class CourseService {
 
     public void delete(String id){
         courseMapper.deleteByPrimaryKey(id);
+    }
+
+//    更新课程时长
+    public void updateTime(String courseId){
+        LOG.info("更新课程时长:{}",courseId);
+        myCourseMapper.updateTime(courseId);
     }
 }

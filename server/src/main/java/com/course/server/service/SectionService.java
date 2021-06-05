@@ -28,6 +28,10 @@ public class SectionService {
 
     @Resource
     private SectionMapper sectionMapper;
+
+    @Resource
+    private CourseService courseService;
+
 //列表查询
     public void list(SectionPageDto sectionPageDto){
         /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/
@@ -39,7 +43,7 @@ public class SectionService {
             criteria.andCourseIdEqualTo(sectionPageDto.getCourseId());
         }
         if (!StringUtils.isEmpty(sectionPageDto.getChapterId())){
-            criteria.andCourseIdEqualTo(sectionPageDto.getChapterId());
+            criteria.andChapterIdEqualTo(sectionPageDto.getChapterId());
         }
         sectionExample.setOrderByClause("sort asc");
         List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
@@ -63,6 +67,7 @@ public class SectionService {
         else {
             this.update(section);
         }
+        courseService.updateTime(sectionDto.getCourseId());
     }
 
     private void insert(Section section){

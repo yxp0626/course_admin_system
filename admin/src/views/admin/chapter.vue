@@ -1,8 +1,8 @@
 <template>
   <div>
     <h4 class="lighter">
-      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer"></i>
-      <router-link to="/business/course" class="pink"></router-link>
+      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+      <router-link to="/business/course" class="pink">{{course.name}}</router-link>
     </h4>
     <hr>
     <p>

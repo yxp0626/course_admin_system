@@ -73,3 +73,32 @@ create table course(
 insert into course values ('000001','测试课程01','这是一门测试课程',7200,19.9,'',1,'C','D',100,0,now(),now());
 
 select * from chapter;
+
+
+drop table if exists category;
+create table category(
+    id char(8) not null default '' comment 'id',
+    parent char(8) not null default '' comment '父id',
+    name varchar(50) not null comment '名称',
+    sort int comment '顺序',
+    primary key (id)
+) engine = innodb default charset = utf8mb4 comment = '分类';
+
+
+insert into category values ('0000100','0000100','前端技术',100);
+insert into category values ('0000101','0000101','html/css',101);
+insert into category values ('0000102','0000102','javascript',102);
+insert into category values ('0000103','0000103','vue.js',103);
+insert into category values ('0000104','0000104','react.js',104);
+insert into category values ('0000105','0000105','angular',105);
+insert into category values ('0000106','0000106','jquery',106);
+insert into category values ('0000107','0000107','小程序',107);
+insert into category values ('0000200','0000200','后端技术',200);
+insert into category values ('0000201','0000201','java',201);
+insert into category values ('0000202','0000202','springboot',202);
+insert into category values ('0000203','0000203','springcloud',203);
+insert into category values ('0000204','0000204','ssm',204);
+insert into category values ('0000205','0000205','python',205);
+insert into category values ('0000206','0000206','go',206);
+insert into category values ('0000207','0000207','微服务',207);
+

@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -59,7 +60,9 @@ public class SectionService {
         sectionPageDto.setList(sectionList);
     }
 //保存操作，id有值的时候更新，无值的时候新增。
-    public void save(SectionDto sectionDto){
+//注解开启事务，属性表示对Exception异常都执行回滚操作
+    @Transactional(rollbackFor = Exception.class)
+    public void save(SectionDto sectionDto) {
         Section section = CopyUtil.copy(sectionDto,Section.class);
         if (StringUtils.isEmpty(sectionDto.getId())){
             this.insert(section);

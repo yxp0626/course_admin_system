@@ -71,3 +71,5 @@ create table course(
 ) engine = innodb default charset = utf8mb4 comment ='课程表';
 
 insert into course values ('000001','测试课程01','这是一门测试课程',7200,19.9,'',1,'C','D',100,0,now(),now());
+
+select * from chapter;

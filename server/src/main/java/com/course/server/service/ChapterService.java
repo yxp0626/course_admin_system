@@ -3,7 +3,7 @@ package com.course.server.service;
 import com.course.server.domain.Chapter;
 import com.course.server.domain.ChapterExample;
 import com.course.server.dto.ChapterDto;
-import com.course.server.dto.PageDto;
+import com.course.server.dto.ChapterPageDto;
 import com.course.server.mapper.ChapterMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
@@ -27,14 +27,18 @@ public class ChapterService {
     @Resource
     private ChapterMapper chapterMapper;
 //列表查询
-    public void list(PageDto pageDto){
+    public void list(ChapterPageDto chapterPageDto){
         /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/
         //当传入的分页参数不合法时，比如0,0时，程序不会报错，而是查全部记录，分页不生效。
-        PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
+        PageHelper.startPage(chapterPageDto.getPage(),chapterPageDto.getSize());
         ChapterExample chapterExample = new ChapterExample();
+        ChapterExample.Criteria criteria = chapterExample.createCriteria();
+        if (!StringUtils.isEmpty(chapterPageDto.getCourseId())){
+            criteria.andCourseIdEqualTo(chapterPageDto.getCourseId());
+        }
         List<Chapter> chapterList = chapterMapper.selectByExample(chapterExample);
         PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
-        pageDto.setTotal(pageInfo.getTotal());
+        chapterPageDto.setTotal(pageInfo.getTotal());
         List<ChapterDto> chapterDtoList = new ArrayList<>();
         for (int i = 0, l = chapterList.size(); i < l; i++) {
             Chapter chapter = chapterList.get(i);
@@ -42,7 +46,7 @@ public class ChapterService {
             BeanUtils.copyProperties(chapter,chapterDto);
             chapterDtoList.add(chapterDto);
         }
-        pageDto.setList(chapterList);
+        chapterPageDto.setList(chapterList);
     }
 //保存操作，id有值的时候更新，无值的时候新增。
     public void save(ChapterDto chapterDto){

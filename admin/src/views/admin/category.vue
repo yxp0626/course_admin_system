@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-md-6">
         <p>
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="add1()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增一级
           </button>
           &nbsp;
           <button v-on:click="all()" class="btn btn-white btn-default btn-round">
@@ -45,9 +45,9 @@
       </div>
       <div class="col-md-6">
         <p>
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="add2()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增二级
           </button>
         </p>
 
@@ -93,15 +93,15 @@
           <div class="modal-body">
             <form class="form-horizontal">
                     <div class="form-group">
-                        <label  class="col-sm-2 control-label">父id</label>
+                        <label  class="col-sm-2 control-label">父分类</label>
                         <div class="col-sm-10">
-                            <input v-model="category.parent" class="form-control">
+                          <p class="form-control-static" >{{active.name || "无"}}</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">名称</label>
                         <div class="col-sm-10">
-                            <input v-model="category.name" class="form-control">
+                          <input v-model="category.name" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
@@ -140,10 +140,28 @@ export default {
     // this.$parent.activeSidebar("business-category-sidebar");
   },
   methods: {
-    //点击按钮新增
-    add(){
+    //点击按钮新增一级(需要清空选中的所有组件的变量存储值，并且把当前新增的category设置为父类)
+    add1(){
       let _this=this;
-      _this.category = {};
+      _this.active = {};
+      _this.level2 = {};
+      _this.category = {
+        parent: "0000000"
+      };
+      $("#form-modal").modal("show");
+    },
+    //点击按钮新增二级
+    add2(){
+      let _this=this;
+      //必须有一级分类
+      if (Tool.isEmpty(_this.active)){
+        Toast.warning("请先点击一级分类");
+        return;
+      }
+      //给当前二级分类的一级分类属性赋值
+      _this.category = {
+        parent: _this.active.id
+      };
       $("#form-modal").modal("show");
     },
     //点击编辑
@@ -177,6 +195,13 @@ export default {
               }
             }
         }
+
+        _this.level2 = [];
+      //  对当前一节分类中选中的表格触发一次点击事件，以刷新二级分类列表
+      //  界面的渲染需要等vue绑定好变量后才做，需要加延时。
+        setTimeout(function (){
+          $("tr.active").trigger("click");
+        }, 100);
       })
     },
     //点击保存

@@ -8,6 +8,7 @@ import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -59,7 +60,20 @@ public class CategoryService {
         categoryMapper.updateByPrimaryKey(category);
     }
 
+    @Transactional
     public void delete(String id){
+        deleteChildren(id);
         categoryMapper.deleteByPrimaryKey(id);
+    }
+
+//在删除二级分类的时候，也应该删除下面的子分类
+    public void deleteChildren(String id)
+    {
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        if("0000000".equals(category.getParent())){
+            CategoryExample categoryExample = new CategoryExample();
+            categoryExample.createCriteria().andParentEqualTo(category.getId());
+            categoryMapper.deleteByExample(categoryExample);
+        }
     }
 }

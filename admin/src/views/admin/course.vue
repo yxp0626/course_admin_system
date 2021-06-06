@@ -169,6 +169,7 @@ export default {
       COURSE_CHARGE: COURSE_CHARGE,
       COURSE_STATUS: COURSE_STATUS,
       categorys: [],
+      tree: {},
     }
   },
   mounted: function (){
@@ -218,6 +219,13 @@ export default {
         ) {
           return;
         }
+
+      let categorys = _this.tree.getCheckedNodes();
+      if (Tool.isEmpty(categorys)){
+        Toast.warning("请选择分类！");
+        return;
+      }
+      _this.course.categorys = categorys;
 
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/course/save',
@@ -288,7 +296,8 @@ export default {
 
       let zNodes = _this.categorys;
 
-      $.fn.zTree.init($("#tree"),setting,zNodes);
+      _this.tree = $.fn.zTree.init($("#tree"),setting,zNodes);
+
     }
   }
 }

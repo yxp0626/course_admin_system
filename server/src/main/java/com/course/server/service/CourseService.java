@@ -36,6 +36,9 @@ public class CourseService {
     @Resource
     private MyCourseMapper myCourseMapper;
 
+    @Resource
+    private CourseCategoryService courseCategoryService;
+
 //列表查询
     public void list(PageDto pageDto){
         /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/
@@ -64,6 +67,9 @@ public class CourseService {
         else {
             this.update(course);
         }
+
+//批量保存课程的分类
+        courseCategoryService.saveBatch(course.getId(),courseDto.getCategorys());
     }
 
     private void insert(Course course){

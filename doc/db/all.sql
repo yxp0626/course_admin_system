@@ -102,3 +102,15 @@ insert into category values ('0000205','0000200','python',205);
 insert into category values ('0000206','0000200','go',206);
 insert into category values ('0000207','0000200','微服务',207);
 
+
+drop table if exists course_category;
+create table course_category(
+    id char(8) not null default '' comment 'id',
+    course_id char(8) comment '课程|course.id',
+    category_id char(8) comment '分类|category.id',
+    primary key (id)
+)   engine = innodb default charset = utf8mb4 comment = '课程分类';
+
+
+
+

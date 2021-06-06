@@ -3,12 +3,9 @@ package com.course.server.service;
 import com.course.server.domain.Category;
 import com.course.server.domain.CategoryExample;
 import com.course.server.dto.CategoryDto;
-import com.course.server.dto.PageDto;
 import com.course.server.mapper.CategoryMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -27,15 +24,12 @@ public class CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
 //列表查询
-    public void list(PageDto pageDto){
+    public List<CategoryDto> all(){
         /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/
         //当传入的分页参数不合法时，比如0,0时，程序不会报错，而是查全部记录，分页不生效。
-        PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
         CategoryExample categoryExample = new CategoryExample();
         categoryExample.setOrderByClause("sort asc");
         List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
-        PageInfo<Category> pageInfo = new PageInfo<>(categoryList);
-        pageDto.setTotal(pageInfo.getTotal());
         List<CategoryDto> categoryDtoList = new ArrayList<>();
         for (int i = 0, l = categoryList.size(); i < l; i++) {
             Category category = categoryList.get(i);
@@ -43,7 +37,7 @@ public class CategoryService {
             BeanUtils.copyProperties(category,categoryDto);
             categoryDtoList.add(categoryDto);
         }
-        pageDto.setList(categoryList);
+        return categoryDtoList;
     }
 //保存操作，id有值的时候更新，无值的时候新增。
     public void save(CategoryDto categoryDto){

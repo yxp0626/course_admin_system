@@ -1,5 +1,5 @@
 insert into test (id,name) values('2','测试');
-
+#大章表
 drop table if exists `chapter`;
 create table `chapter` (
     id char(8) not null comment 'ID',
@@ -29,7 +29,7 @@ insert into chapter values ('00017','00000','测试大章17');
 insert into chapter values ('00018','00000','测试大章18');
 
 
-
+#小节表
 Drop table if exists section;
 create table section
 (
@@ -51,7 +51,7 @@ insert into section values ('000001','测试小节1','00000001','00000000','',50
 
 SHOW FULL COLUMNS FROM section;
 
-
+#课程表
 drop table if exists course;
 create table course(
     id char(8) not null default '' comment 'id',
@@ -74,7 +74,7 @@ insert into course values ('000001','测试课程01','这是一门测试课程',
 
 select * from chapter;
 
-
+#分类表
 drop table if exists category;
 create table category(
     id char(8) not null default '' comment 'id',
@@ -102,7 +102,7 @@ insert into category values ('0000205','0000200','python',205);
 insert into category values ('0000206','0000200','go',206);
 insert into category values ('0000207','0000200','微服务',207);
 
-
+#课程分类表
 drop table if exists course_category;
 create table course_category(
     id char(8) not null default '' comment 'id',
@@ -111,6 +111,12 @@ create table course_category(
     primary key (id)
 )   engine = innodb default charset = utf8mb4 comment = '课程分类';
 
-
+#课程内容表(大的字段尽量单独成一张表)
+drop table if exists course_content;
+create table course_content(
+    id char(8) not null default '' comment '课程id',
+    content mediumtext not null comment '课程内容',
+    primary key (id)
+)   engine = innodb default charset = utf8mb4 comment = '课程内容';
 
 

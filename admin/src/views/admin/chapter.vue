@@ -103,7 +103,7 @@ export default {
   mounted: function (){
     let _this=this;
     _this.$refs.pagination.size=5;
-    let course = SessionStorage.get("course") || {};
+    let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
     if(Tool.isEmpty(course)) {
         _this.$router.push("/welcome");
     }
@@ -182,7 +182,7 @@ export default {
     //点击小节
     toSection(chapter){
       let _this=this;
-      SessionStorage.set("chapter",chapter);
+      SessionStorage.set(SESSION_KEY_CHAPTER,chapter);
       _this.$router.push("/business/section");
     }
   }

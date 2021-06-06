@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class CourseService {
         pageDto.setList(courseList);
     }
 //保存操作，id有值的时候更新，无值的时候新增。
+    @Transactional
     public void save(CourseDto courseDto){
         Course course = CopyUtil.copy(courseDto,Course.class);
         if (StringUtils.isEmpty(courseDto.getId())){

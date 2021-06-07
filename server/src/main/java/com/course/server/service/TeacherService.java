@@ -2,8 +2,8 @@ package com.course.server.service;
 
 import com.course.server.domain.Teacher;
 import com.course.server.domain.TeacherExample;
-import com.course.server.dto.TeacherDto;
 import com.course.server.dto.PageDto;
+import com.course.server.dto.TeacherDto;
 import com.course.server.mapper.TeacherMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
@@ -26,6 +26,15 @@ public class TeacherService {
 
     @Resource
     private TeacherMapper teacherMapper;
+
+    //列表查询
+    public List<TeacherDto> all(){
+        /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/
+        //当传入的分页参数不合法时，比如0,0时，程序不会报错，而是查全部记录，分页不生效。
+        TeacherExample teacherExample = new TeacherExample();
+        List<Teacher> teacherList = teacherMapper.selectByExample(teacherExample);
+        return CopyUtil.copyList(teacherList,TeacherDto.class);
+    }
 //列表查询
     public void list(PageDto pageDto){
         /*插件分页语句规则:调用startPage方法之后，执行的第一个select语句会进行分页。执行分页查询功能至少需要两条sql，一条是查询总记录数，一条是查当前页的记录。*/

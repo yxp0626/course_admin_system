@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -26,6 +27,18 @@ public class TeacherController {
 
     @Resource
     private TeacherService teacherService;
+
+
+
+    //列表查询
+    @PostMapping(value="/all",produces = "application/json;charset=UTF-8")
+    public ResponseDto all(){
+        ResponseDto responseDto = new ResponseDto();
+        List<TeacherDto> teacherDtoList = teacherService.all();
+        responseDto.setContent(teacherDtoList);
+        return responseDto;
+
+    }
 
 //列表查询
     @PostMapping(value="/list",produces = "application/json;charset=UTF-8")

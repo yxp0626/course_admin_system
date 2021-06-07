@@ -70,6 +70,9 @@ create table course(
     PRIMARY KEY (id)
 ) engine = innodb default charset = utf8mb4 comment ='课程表';
 
+alter table course add column (teacher_id char(8) comment '讲师|teacher.id');
+
+
 insert into course values ('000001','测试课程01','这是一门测试课程',7200,19.9,'',1,'C','D',100,0,now(),now());
 
 select * from chapter;

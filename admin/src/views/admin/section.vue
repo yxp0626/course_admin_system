@@ -8,10 +8,6 @@
     </h4>
     <hr>
     <p>
-      <router-link to="/business/chapter" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-arrow-left"></i>
-        返回大章
-      </router-link>
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-edit"></i>
         新增
@@ -23,42 +19,42 @@
       </button>
     </p>
 
-    <pagination ref="pagination" v-bind:list="list"></pagination>
+    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
 
     <table id="simple-table" class="table  table-bordered table-hover">
-        <thead>
-        <tr>
-                <th>ID</th>
-                <th>标题</th>
-                <th>视频</th>
-                <th>时长</th>
-                <th>收费</th>
-                <th>顺序</th>
-                <th>操作</th>
-        </tr>
-        </thead>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>标题</th>
+        <th>视频</th>
+        <th>时长</th>
+        <th>收费</th>
+        <th>顺序</th>
+        <th>操作</th>
+      </tr>
+      </thead>
 
-        <tbody>
-        <tr v-for="section in sections">
-                <td>{{section.id}}</td>
-                <td>{{section.title}}</td>
-                <td>{{section.video}}</td>
-                <td>{{section.time | formatSecond}}</td>
-                <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
-                <td>{{section.sort}}</td>
-          <td>
-            <div class="hidden-sm hidden-xs btn-group">
-              <button v-on:click="edit(section)" class="btn btn-xs btn-info">
-                <i class="ace-icon fa fa-pencil bigger-120"></i>
-              </button>
-              <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
-                <i class="ace-icon fa fa-trash-o bigger-120"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <tbody>
+      <tr v-for="section in sections">
+        <td>{{section.id}}</td>
+        <td>{{section.title}}</td>
+        <td>{{section.video}}</td>
+        <td>{{section.time | formatSecond}}</td>
+        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
+        <td>{{section.sort}}</td>
+        <td>
+          <div class="hidden-sm hidden-xs btn-group">
+            <button v-on:click="edit(section)" class="btn btn-xs btn-info">
+              <i class="ace-icon fa fa-pencil bigger-120"></i>
+            </button>
+            <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
+              <i class="ace-icon fa fa-trash-o bigger-120"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -69,50 +65,59 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">标题</label>
-                        <div class="col-sm-10">
-                            <input v-model="section.title" class="form-control">
-                        </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">标题</label>
+                <div class="col-sm-10">
+                  <input v-model="section.title" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">课程</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static">{{course.name}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">大章</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static">{{chapter.name}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">视频</label>
+                <div class="col-sm-10">
+                  <file v-bind:id="'video-upload'"
+                        v-bind:text="'上传视频'"
+                        v-bind:suffixs="['mp4']"
+                        v-bind:use="FILE_USE.COURSE.key"
+                        v-bind:after-upload="afterUpload"></file>
+                  <div v-show="section.video" class="row">
+                    <div class="col-md-9">
+                      <video v-bind:src="section.video" controls="controls"></video>
                     </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">课程</label>
-                        <div class="col-sm-10">
-                          <p class="form-control-static">{{course.name}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">大章</label>
-                        <div class="col-sm-10">
-                          <p class="form-control-static">{{chapter.name}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">视频</label>
-                        <div class="col-sm-10">
-                            <input v-model="section.video" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">时长</label>
-                        <div class="col-sm-10">
-                            <input v-model="section.time" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">收费</label>
-                        <div class="col-sm-10">
-                            <select v-model="section.charge" class="form-control">
-                              <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">顺序</label>
-                        <div class="col-sm-10">
-                            <input v-model="section.sort" class="form-control">
-                        </div>
-                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">时长</label>
+                <div class="col-sm-10">
+                  <input v-model="section.time" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">收费</label>
+                <div class="col-sm-10">
+                  <select v-model="section.charge" class="form-control">
+                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">顺序</label>
+                <div class="col-sm-10">
+                  <input v-model="section.sort" class="form-control">
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
@@ -127,20 +132,22 @@
 
 <script>
 import Pagination from "../../components/pagination";
+import File from "../../components/file";
 export default {
-  name: 'business-section',
-  components: {Pagination},
-  data: function (){
-    return{
+  components: {Pagination, File},
+  name: "business-section",
+  data: function() {
+    return {
       section: {},
       sections: [],
       SECTION_CHARGE: SECTION_CHARGE,
+      FILE_USE: FILE_USE,
       course: {},
       chapter: {},
     }
   },
-  mounted: function (){
-    let _this=this;
+  mounted: function() {
+    let _this = this;
     _this.$refs.pagination.size = 5;
     let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
     let chapter = SessionStorage.get(SESSION_KEY_CHAPTER) || {};
@@ -150,83 +157,111 @@ export default {
     _this.course = course;
     _this.chapter = chapter;
     _this.list(1);
+    // sidebar激活样式方法一
     this.$parent.activeSidebar("business-course-sidebar");
+
   },
   methods: {
-    //点击按钮新增
-    add(){
-      let _this=this;
+    /**
+     * 点击【新增】
+     */
+    add() {
+      let _this = this;
       _this.section = {};
       $("#form-modal").modal("show");
     },
-    //点击编辑
-    edit(section){
-      let _this=this;
-      _this.section= $.extend({},section);
+
+    /**
+     * 点击【编辑】
+     */
+    edit(section) {
+      let _this = this;
+      _this.section = $.extend({}, section);
       $("#form-modal").modal("show");
     },
-    //列表查询
-    list(page){
-      let _this=this;
+
+    /**
+     * 列表查询
+     */
+    list(page) {
+      let _this = this;
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/section/list',{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/list', {
         page: page,
-        courseId: _this.course.id,
-        chapterId: _this.chapter.id,
         size: _this.$refs.pagination.size,
+        courseId: _this.course.id,
+        chapterId: _this.chapter.id
       }).then((response)=>{
         Loading.hide();
         let resp = response.data;
         _this.sections = resp.content.list;
-        _this.$refs.pagination.render(page,resp.content.total);
+        _this.$refs.pagination.render(page, resp.content.total);
+
       })
     },
-    //点击保存
-    save(page){
-      let _this=this;
+
+    /**
+     * 点击【保存】
+     */
+    save(page) {
+      let _this = this;
 
       // 保存校验
-        if (1 != 1
-            || !Validator.require(_this.section.title, "标题")
-            || !Validator.length(_this.section.title, "标题", 1, 9)
-            || !Validator.length(_this.section.video, "视频", 1, 200)
-        ) {
-          return;
-        }
+      if (1 != 1
+          || !Validator.require(_this.section.title, "标题")
+          || !Validator.length(_this.section.title, "标题", 1, 50)
+          || !Validator.length(_this.section.video, "视频", 1, 200)
+      ) {
+        return;
+      }
       _this.section.courseId = _this.course.id;
       _this.section.chapterId = _this.chapter.id;
 
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/section/save',
-      _this.section).then((response)=>{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response)=>{
         Loading.hide();
         let resp = response.data;
-        if(resp.success){
+        if (resp.success) {
           $("#form-modal").modal("hide");
           _this.list(1);
-          Toast.success("保存成功！")
-        }else {
-          Toast.warning(resp.message);
+          Toast.success("保存成功！");
+        } else {
+          Toast.warning(resp.message)
         }
       })
     },
-    //点击删除
-    del(id){
-      let _this=this;
 
-      Confirm.show("删除小节不可恢复，确认删除？",function (){Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER+'/business/admin/section/delete/'+id).then((response)=>{
+    /**
+     * 点击【删除】
+     */
+    del(id) {
+      let _this = this;
+      Confirm.show("删除小节后不可恢复，确认删除？", function () {
+        Loading.show();
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response)=>{
           Loading.hide();
-          console.log("删除小节列表结果:",response);
           let resp = response.data;
-          if(resp.success){
+          if (resp.success) {
             _this.list(1);
-            Toast.success("删除成功!")
-          } else {
-            Toast.warning(resp.message);
+            Toast.success("删除成功！");
           }
-        })});
+        })
+      });
+    },
+
+    afterUpload(resp) {
+      let _this = this;
+      let video = resp.content.path;
+      _this.section.video = video;
     }
   }
 }
 </script>
+
+<style scoped>
+video {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+</style>

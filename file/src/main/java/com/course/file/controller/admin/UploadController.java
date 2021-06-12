@@ -2,6 +2,7 @@ package com.course.file.controller.admin;
 
 import com.course.server.dto.FileDto;
 import com.course.server.dto.ResponseDto;
+import com.course.server.enums.FileUseEnum;
 import com.course.server.service.FileService;
 import com.course.server.util.UuidUtil;
 import org.slf4j.Logger;
@@ -16,14 +17,13 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * @author Xiaoping Yu
- * @date 2021/6/7 - 16:39
- */
-
 @RequestMapping("/admin")
 @RestController
 public class UploadController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
+
+    public static final String BUSINESS_NAME = "文件上传";
 
     @Value("${file.domain}")
     private String FILE_DOMAIN;
@@ -34,24 +34,27 @@ public class UploadController {
     @Resource
     private FileService fileService;
 
-
-    private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
-
-    public static final String BUSINESS_NAME = "文件上传";
-
-
     @RequestMapping("/upload")
-    public ResponseDto upload(@RequestParam MultipartFile file) throws IOException {
-        LOG.info("文件上传开始：{}",file);
+    public ResponseDto upload(@RequestParam MultipartFile file, String use) throws IOException {
+        LOG.info("上传文件开始");
         LOG.info(file.getOriginalFilename());
         LOG.info(String.valueOf(file.getSize()));
 
-//保存文件到本地的代码
-        String fileName = file.getOriginalFilename();
+        // 保存文件到本地
+        FileUseEnum useEnum = FileUseEnum.getByCode(use);
         String key = UuidUtil.getShortUuid();
-        String suffix = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
-        String path = "teacher/" + key + "." + suffix;
-        String fullPath = FILE_PATH+path;
+        String fileName = file.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+
+        //如果文件夹不存在则创建
+        String dir = useEnum.name().toLowerCase();
+        File fullDir = new File(FILE_PATH + dir);
+        if (!fullDir.exists()) {
+            fullDir.mkdir();
+        }
+
+        String path = dir + File.separator + key + "." + suffix;
+        String fullPath = FILE_PATH + path;
         File dest = new File(fullPath);
         file.transferTo(dest);
         LOG.info(dest.getAbsolutePath());
@@ -62,13 +65,11 @@ public class UploadController {
         fileDto.setName(fileName);
         fileDto.setSize(Math.toIntExact(file.getSize()));
         fileDto.setSuffix(suffix);
-        fileDto.setUse("");
+        fileDto.setUse(use);
         fileService.save(fileDto);
 
-        ResponseDto<Object> responseDto = new ResponseDto<>();
-        responseDto.setContent(FILE_DOMAIN
-                +path);
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setContent(FILE_DOMAIN + path);
         return responseDto;
     }
-
 }

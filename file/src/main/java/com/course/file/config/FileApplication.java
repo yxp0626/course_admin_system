@@ -23,5 +23,4 @@ public class FileApplication {
 		LOG.info("启动成功！！");
 		LOG.info("File地址：\thttp://127.0.0.1:{}",env.getProperty("server.port"));
 	}
-
 }

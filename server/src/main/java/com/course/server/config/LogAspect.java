@@ -1,10 +1,5 @@
 package com.course.server.config;
 
-/**
- * @author Xiaoping Yu
- * @date 2021/5/31 - 21:37
- */
-
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.course.server.util.UuidUtil;

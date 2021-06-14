@@ -1,4 +1,5 @@
-var KEY = "COURSE";
+//md5算法的盐值
+var KEY = "!@#QWERT";
 /*
  * Configurable variables. You may need to tweak these to be compatible with
  * the server-side, but the defaults work in most cases.

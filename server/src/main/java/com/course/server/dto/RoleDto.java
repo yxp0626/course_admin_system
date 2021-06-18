@@ -1,59 +1,68 @@
 package com.course.server.dto;
 
 
+import java.util.List;
+
 public class RoleDto {
 
     /**
-    * id
-    */
+     * id
+     */
     private String id;
 
     /**
-    * 角色
-    */
+     * 角色
+     */
     private String name;
 
     /**
-    * 描述
-    */
+     * 描述
+     */
     private String desc;
 
+    private List<String> resourceIds;
+
     public String getId() {
-    return id;
+        return id;
     }
 
     public void setId(String id) {
-    this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-    return name;
+        return name;
     }
 
     public void setName(String name) {
-    this.name = name;
+        this.name = name;
     }
 
     public String getDesc() {
-    return desc;
+        return desc;
     }
 
     public void setDesc(String desc) {
-    this.desc = desc;
+        this.desc = desc;
     }
 
+    public List<String> getResourceIds() {
+        return resourceIds;
+    }
 
-@Override
-public String toString() {
-StringBuilder sb = new StringBuilder();
-sb.append(getClass().getSimpleName());
-sb.append(" [");
-sb.append("Hash = ").append(hashCode());
-    sb.append(", id=").append(id);
-    sb.append(", name=").append(name);
-    sb.append(", desc=").append(desc);
-sb.append("]");
-return sb.toString();
-}
+    public void setResourceIds(List<String> resourceIds) {
+        this.resourceIds = resourceIds;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("RoleDto{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", desc='").append(desc).append('\'');
+        sb.append(", resourceIds=").append(resourceIds);
+        sb.append('}');
+        return sb.toString();
+    }
 
 }
